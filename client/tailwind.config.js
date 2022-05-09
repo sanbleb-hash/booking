@@ -4,9 +4,9 @@ module.exports = {
 		extend: {
 			fontFamily: { poppins: ['Poppins', 'sans-serif'] },
 			colors: {
+				'brand-secondary': '#D6EAF8 ',
 				'brand-primary': '#003580',
-				'brand-secondary': '0042a0',
-				'brand-tertiary': '002a66',
+				'brand-tertiary': '#002a66',
 			},
 		},
 	},

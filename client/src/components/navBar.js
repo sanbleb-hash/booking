@@ -7,8 +7,8 @@ import { navDetails } from './nav-list';
 
 const NavBar = () => {
 	return (
-		<nav className=' w-screen h-[38vh] bg-[#003580]  '>
-			<div className='nav-container flex flex-col items-start justify-between w-[90vw] h-[30vh] m-auto  '>
+		<nav className=' w-screen h-[25vh] bg-[#003580] my-auto pt-8  '>
+			<div className='nav-container flex flex-col items-start justify-between w-[90vw] h-[18vh] m-auto  '>
 				<div className='top-nav flex items-center justify-between w-full text-white '>
 					<h1 className='font-semibold text-3xl'>Booking.com</h1>
 					<div className='flex items-center justify-center w'>
@@ -18,24 +18,25 @@ const NavBar = () => {
 							<IoMdHelpCircleOutline size='40' />
 						</span>
 						<div className='btns '>
-							<Button
-								title={'list your property'}
-								color={'#003580'}
-								margin={'10px'}
-								type={'button'}
-								className='px-4 py-3 text-white'
-							/>
+							<button
+								className='px-4 rounded-sm mx-3 py-2  text-white capitalize font-semibold border-2 border-slate-100
+                        bg-inherit hover:bg-blue-100/10
+                        transition-all duration-200
+                        '
+								type='button'
+							>
+								list your property
+							</button>
 							<Button
 								title={'register'}
-								color={'#f5f5f5'}
+								color={'#003580'}
 								size={'10px'}
 								type={'button'}
-								className='px-4 py-3 bg-white hover:bg-blue-500'
 							/>
 							<Button
 								text={`text-brand-primary`}
 								title={'sign in'}
-								color={'#f5f5f5'}
+								color={'#003580'}
 								margin={'10px'}
 								type={'button'}
 								className='px-4 py-3 '
@@ -51,7 +52,7 @@ const NavBar = () => {
 							className={({ isActive }) =>
 								isActive
 									? ' border-2 border-white py-2 px-4 bg-blue-900 rounded-full'
-									: 'rounded-full hover:bg-brand-secondary  px-4 py-3 '
+									: 'rounded-full hover:bg-blue-400/25  px-4 py-3 transition-all duration-200'
 							}
 						>
 							<span className='flex gap-2 items-center '>
