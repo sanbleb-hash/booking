@@ -2,7 +2,7 @@ import React from 'react';
 
 const PropertyType = () => {
 	return (
-		<div className='h-[300px]  flex items-center'>
+		<div className='h-[300px] z-10 flex items-center'>
 			<div className='flex gap-4 h-full p-2 flex-col rounded-md overflow-hidden'>
 				<img
 					src='https://cf.bstatic.com/static/img/theme-index/carousel_320x240/card-image-apartments_300/9f60235dc09a3ac3f0a93adbc901c61ecd1ce72e.jpg'

@@ -4,8 +4,11 @@ import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 const SearchComponent = () => {
+	const navigate = useNavigate();
+
 	const [options, setOptions] = useState({
 		adults: 1,
 		children: 0,
@@ -33,6 +36,7 @@ const SearchComponent = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		navigate('/search/');
 		console.log(options, date);
 	};
 
@@ -68,7 +72,7 @@ const SearchComponent = () => {
 				</div>
 				{showDatePicker && (
 					<DateRange
-						className='absolute -bottom-[380px] left-[30vw]'
+						className='absolute z-50 -bottom-[380px] left-[30vw]'
 						editableDateInputs={true}
 						onChange={(item) => setDate([item.selection])}
 						moveRangeOnFirstSelection={false}
@@ -85,7 +89,7 @@ const SearchComponent = () => {
 						}}
 					>{`${options.adults} adults, ${options.children} children, ${options.rooms} rooms`}</p>
 					{showOptins && (
-						<div className='flex flex-col w-[250px]  shadow-xl bg-blue-200 h-[150px] pb-5 justify-between items-center absolute -bottom-[180px] text-gray-600  '>
+						<div className='flex z-50 flex-col w-[250px]  shadow-xl bg-blue-200 h-[150px] pb-5 justify-between items-center absolute -bottom-[180px] text-gray-600  '>
 							<span className='flex items-center justify-between w-[80%]  text-xl gap-4'>
 								<button
 									className=' font-semibold '

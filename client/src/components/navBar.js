@@ -1,16 +1,19 @@
 import React from 'react';
 import { GiCheckeredFlag } from 'react-icons/gi';
 import { IoMdHelpCircleOutline } from 'react-icons/io';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Button from './button';
 import { navDetails } from './nav-list';
 
 const NavBar = () => {
+	const navigate = useNavigate();
 	return (
 		<nav className=' w-screen h-[25vh] bg-[#003580] my-auto pt-8  '>
 			<div className='nav-container flex flex-col items-start justify-between w-[90vw] h-[18vh] m-auto  '>
 				<div className='top-nav flex items-center justify-between w-full text-white '>
-					<h1 className='font-semibold text-3xl'>Booking.com</h1>
+					<h1 className='font-semibold text-3xl'>
+						<Link to='/'>Booking.com </Link>
+					</h1>
 					<div className='flex items-center justify-center w'>
 						<span className='flex items-center justify-center text-2xl '>
 							<h3>zar </h3>
@@ -32,6 +35,9 @@ const NavBar = () => {
 								color={'#003580'}
 								size={'10px'}
 								type={'button'}
+								onClick={() => {
+									navigate('/login');
+								}}
 							/>
 							<Button
 								text={`text-brand-primary`}
@@ -40,6 +46,9 @@ const NavBar = () => {
 								margin={'10px'}
 								type={'button'}
 								className='px-4 py-3 '
+								onClick={() => {
+									navigate('/login');
+								}}
 							/>
 						</div>
 					</div>
