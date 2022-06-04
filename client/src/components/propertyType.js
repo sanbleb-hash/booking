@@ -7,7 +7,7 @@ const PropertyType = () => {
 	useEffect(() => {
 		const fetchProperty = async () => {
 			const { data } = await axios.get(
-				'http://localhost:1337/api/properties?populate=*'
+				'http://localhost:1337/api/properties?populate[name]'
 			);
 			setPropertyType(data);
 		};
@@ -18,7 +18,10 @@ const PropertyType = () => {
 		<div className='h-[300px] z-10 flex items-center'>
 			{propertyType &&
 				propertyType.data.map((property) => (
-					<div className='flex gap-4 h-full p-2 flex-col rounded-md overflow-hidden'>
+					<div
+						className='flex gap-4 h-full p-2 flex-col rounded-md overflow-hidden'
+						key={property.id}
+					>
 						<img
 							src={property.attributes.image}
 							alt='placeholder'
