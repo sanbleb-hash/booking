@@ -1,6 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const SearchPage = () => {
+	const search = JSON.parse(localStorage.getItem('searchOptions'));
+	const chechIn = search.dates[0].startDate;
+	const chechout = search.dates[0].endDate;
+
+	const [formData, setFormData] = useState({
+		destination: search.destination || '',
+		chechInDates: chechIn,
+		chechout,
+
+		minPrice: 0,
+		maxPrice: 0,
+		adults: search.occupants.adults || 1,
+		children: search.occupants.children || 0,
+		rooms: search.occupants.rooms || 1,
+	});
+
+	const handleChange = (e) => {
+		setFormData({
+			...formData,
+			[e.target.name]: e.target.value,
+		});
+	};
+
+	const {
+		destination,
+		chechInDates: dates,
+		minPrice,
+		maxPrice,
+		adults,
+		children,
+		rooms,
+	} = formData;
+
 	return (
 		<section className='w-screen py-[40vh ] min-h-screen bg-slate-100'>
 			<h1 className=' pb-5 text-2xl text-gray-700 text-center py-5'>
@@ -18,56 +51,77 @@ const SearchPage = () => {
 						<div className='flex py-2 flex-col'>
 							<label className='text-gray-500'>destination</label>
 							<input
+								onChange={handleChange}
 								type='text'
-								className='border-0 focus:ring-0 text-gray-500 text-sm rounded-md p-1 right-0'
+								name='destination'
+								value={destination}
+								className='border-0 focus:ring-0 text-gray-500 text-sm rounded-md p-1 pl-4 right-0'
 							/>
 						</div>
 						<div className='flex py-2 flex-col'>
 							<label className='text-gray-500'>check in dates</label>
 							<input
+								onChange={handleChange}
 								type='text'
-								className='border-0 focus:ring-0 text-sm rounded-md p-1 right-0'
+								name='dates'
+								value={dates.toLocaleString('us')}
+								className='border-0 focus:ring-0 text-sm rounded-md p-1 pl-4 right-0'
 							/>
 						</div>
 						<div>
 							<p>Options</p>
-							<div className='flex justify-between items-center py-1 '>
+							<div className='flex justify-between items-center py-1 gap-3 '>
 								<label className='text-sm text-gray-500'>
 									min price per night
 								</label>
 								<input
+									onChange={handleChange}
 									type='number'
-									className='border-0 focus:ring-0 text-sm rounded-md w-20 p-1 right-0'
+									name='minPrice'
+									value={minPrice}
+									className='border-0 focus:ring-0 text-sm rounded-md w-20 p-1 pl-4 right-0'
 								/>
 							</div>
-							<div className='flex justify-between items-center py-1 '>
+							<div className='flex justify-between items-center py-1 gap-3 '>
 								<label className='text-sm text-gray-500'>
 									max price per night
 								</label>
 								<input
-									type='text'
-									className='border-0 focus:ring-0 text-sm rounded-md w-20 p-1 right-0'
+									onChange={handleChange}
+									type='number'
+									name='maxPrice'
+									value={maxPrice}
+									className='border-0 focus:ring-0 text-sm rounded-md w-20 p-1 pl-4 right-0'
 								/>
 							</div>
-							<div className='flex justify-between items-center py-1 '>
+							<div className='flex justify-between items-center py-1 gap-3 '>
 								<label className='text-sm text-gray-500'>adults</label>
 								<input
+									onChange={handleChange}
 									type='number'
-									className='border-0 focus:ring-0 text-sm rounded-md w-20 p-1 right-0'
+									name='adults'
+									value={adults}
+									className='border-0 focus:ring-0 text-sm rounded-md w-20 p-1 pl-4 right-0'
 								/>
 							</div>
-							<div className='flex justify-between items-center py-1 '>
+							<div className='flex justify-between items-center py-1 gap-3 '>
 								<label className='text-sm text-gray-500'>children</label>
 								<input
+									onChange={handleChange}
 									type='number'
-									className='border-0 focus:ring-0 text-sm rounded-md w-20 p-1 right-0'
+									name='children'
+									value={children}
+									className='border-0 focus:ring-0 text-sm rounded-md w-20 p-1 pl-4 right-0'
 								/>
 							</div>
-							<div className='flex justify-between items-center py-1'>
+							<div className='flex justify-between items-center py-1 gap-3'>
 								<label className='text-sm text-gray-500'>rooms</label>
 								<input
+									onChange={handleChange}
 									type='number'
-									className='border-0 focus:ring-0 h-[30px] text-sm rounded-md w-20 p-1 right-0'
+									name='rooms'
+									value={rooms}
+									className='border-0 focus:ring-0 h-[30px] text-sm rounded-md w-20 p-1 pl-4 right-0'
 								/>
 							</div>
 						</div>

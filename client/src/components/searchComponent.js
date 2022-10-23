@@ -37,7 +37,10 @@ const SearchComponent = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		navigate('/search/');
-		console.log(options, date);
+		localStorage.setItem(
+			'searchOptions',
+			JSON.stringify({ occupants: options, dates: date, destination: text })
+		);
 	};
 
 	return (
@@ -59,9 +62,7 @@ const SearchComponent = () => {
 				<div
 					className=' flex items-center pl-5 border-l-[5px] h-full border-r-[5px] text-gray-600 border-yellow-400 px-5 '
 					onClick={() => {
-						setShowDatePicker(!showDatePicker);
-
-						setShowOptions(false);
+						setShowDatePicker((prev) => !prev);
 					}}
 				>
 					{`${format(date[0].startDate, 'MM-dd-yyyy')}  to  ${format(
@@ -85,21 +86,23 @@ const SearchComponent = () => {
 						className=' text-gray-600'
 						onClick={() => {
 							setShowOptions(!showOptins);
-							setShowDatePicker(false);
+							setShowDatePicker((prev) => !prev);
 						}}
 					>{`${options.adults} adults, ${options.children} children, ${options.rooms} rooms`}</p>
 					{showOptins && (
 						<div className='flex z-50 flex-col w-[250px]  shadow-xl bg-blue-200 h-[150px] pb-5 justify-between items-center absolute -bottom-[180px] text-gray-600  '>
 							<span className='flex items-center justify-between w-[80%]  text-xl gap-4'>
 								<button
-									className=' font-semibold '
+									type='button'
+									className=' font-semibold active:scale-105 transition-all '
 									onClick={() => handleChangeoptions('adults', 'increase')}
 								>
 									+
 								</button>
 								adults
 								<button
-									className=' font-semibold '
+									type='button'
+									className=' font-semibold active:scale-105 transition-all '
 									disabled={options.adults === 1}
 									onClick={() => handleChangeoptions('adults', 'decrease')}
 								>
@@ -108,14 +111,16 @@ const SearchComponent = () => {
 							</span>
 							<span className='flex items-center justify-between w-[80%] text-xl gap-4'>
 								<button
-									className=' font-semibold '
+									type='button'
+									className=' font-semibold active:scale-105 transition-all '
 									onClick={() => handleChangeoptions('children', 'increase')}
 								>
 									+
 								</button>
 								children
 								<button
-									className=' font-semibold '
+									type='button'
+									className=' font-semibold active:scale-105 transition-all '
 									disabled={options.children === 0}
 									onClick={() => handleChangeoptions('children', 'decrease')}
 								>
@@ -124,14 +129,16 @@ const SearchComponent = () => {
 							</span>
 							<span className='flex items-center justify-between w-[80%] text-xl gap-4'>
 								<button
-									className=' font-semibold '
+									type='button'
+									className=' font-semibold active:scale-105 transition-all '
 									onClick={() => handleChangeoptions('rooms', 'increase')}
 								>
 									+
 								</button>
 								rooms
 								<button
-									className='  font-semibold '
+									type='button'
+									className='  font-semibold active:scale-105 transition-all '
 									disabled={options.rooms === 1}
 									onClick={() => handleChangeoptions('rooms', 'decrease')}
 								>
@@ -143,7 +150,7 @@ const SearchComponent = () => {
 				</div>
 				<button
 					type='submit'
-					className='  border-l-[5px] border-yellow-400 px-4 py-3 text-white bg-blue-600 capitalize font-semibold h-full border-2  w-[150px]'
+					className='  border-l-[5px] border-yellow-400 px-4 py-3 text-white bg-blue-600 capitalize font-semibold active:scale-105 transition-all h-full border-2  w-[150px]'
 				>
 					Search
 				</button>

@@ -37,7 +37,7 @@ const Login = () => {
 							value={username}
 							onChange={handleChange}
 							placeholder='username'
-							className=''
+							className='focus:border-b-2 border-gray-400 focus:border-gray-400 focus:shadow-md focus:border-0 focus:ring-0 bg-slate-100'
 						/>
 					</div>
 				)}
@@ -49,7 +49,7 @@ const Login = () => {
 						value={email}
 						onChange={handleChange}
 						placeholder='enter email'
-						className='w-full'
+						className='focus:border-b-2 border-gray-400 focus:border-gray-400 focus:shadow-md focus:border-0 focus:ring-0 bg-slate-100'
 					/>
 				</div>
 				<div className='flex flex-col w-3/4'>
@@ -60,7 +60,7 @@ const Login = () => {
 						value={password}
 						onChange={handleChange}
 						placeholder='password'
-						className=''
+						className='focus:border-b-2 border-gray-400 focus:border-gray-400 focus:shadow-md focus:border-0 focus:ring-0 bg-slate-100'
 					/>
 				</div>
 				{!isLogin && (
@@ -72,7 +72,7 @@ const Login = () => {
 							value={conformPassword}
 							onChange={handleChange}
 							placeholder='confirm password'
-							className=''
+							className='focus:border-b-2 border-gray-400 focus:border-gray-400 focus:shadow-md focus:border-0 focus:ring-0 bg-slate-100'
 						/>
 					</div>
 				)}
