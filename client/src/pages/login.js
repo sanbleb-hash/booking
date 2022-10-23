@@ -1,8 +1,13 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { registerStart, registerUser } from '../utils/features/auth/authSlice';
 
 const Login = () => {
+	const dispatch = useDispatch();
+
 	const [isLogin, setIsLogin] = useState(false);
 	const [formData, setFormData] = useState({
 		username: '',
@@ -14,8 +19,17 @@ const Login = () => {
 	const handleChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+		dispatch(registerStart);
+		if (isLogin) {
+			const formData = {
+				password,
+				email,
+			};
+			const { data } = await axios.post('/api/auth', formData);
+			dispatch(registerUser({ payload: data }));
+		}
 	};
 	const { username, password, email, conformPassword } = formData;
 
@@ -76,7 +90,7 @@ const Login = () => {
 						/>
 					</div>
 				)}
-				<button type='submit'></button>
+				<button type='submit'> send</button>
 			</form>
 
 			<span className='pt-3 flex gap-2'>
