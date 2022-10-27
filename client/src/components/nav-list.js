@@ -3,7 +3,7 @@ import { CgAirplane } from 'react-icons/cg';
 import { FaCar } from 'react-icons/fa';
 
 export const navDetails = [
-	{ caption: 'stays', link: '/', icon: <MdSingleBed /> },
+	{ caption: 'stays', link: '/hotels', icon: <MdSingleBed /> },
 	{ caption: 'filghts', link: '/flights', icon: <CgAirplane /> },
 	{ caption: 'car rentals', link: '/car-rentals', icon: <FaCar /> },
 	{ caption: 'attractions', link: '/attractions', icon: <MdAttractions /> },

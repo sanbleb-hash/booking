@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import cors from 'cors';
 import connectDB from './config/db.js';
 import authUser from './routes/userRoutes.js';
+import hotelsRoutes from './routes/hotelsRoutes.js';
 
 const app = express();
 
@@ -15,6 +15,7 @@ connectDB();
 // routes
 app.get('/', (req, res) => res.send('app running...'));
 app.use('/api/auth', authUser);
+app.use('/api/hotels', hotelsRoutes);
 
 // connection
 app.listen(process.env.PORT, () =>

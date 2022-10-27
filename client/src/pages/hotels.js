@@ -5,7 +5,7 @@ import {
 	FaTimes,
 } from 'react-icons/fa';
 
-const Hotel = () => {
+const Hotels = () => {
 	const [showModel, setShowModel] = useState(false);
 	const [slideNumber, setSlideNumber] = useState(0);
 	const photos = [
@@ -165,4 +165,4 @@ const Hotel = () => {
 	);
 };
 
-export default Hotel;
+export default Hotels;
