@@ -14,7 +14,6 @@ const NavBar = () => {
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	console.log(user);
 	return (
 		<nav className=' w-screen h-[25vh] bg-[#003580] my-auto pt-8  '>
 			<div className='nav-container flex flex-col items-start justify-between w-[90vw] h-[18vh] m-auto  '>
@@ -35,6 +34,9 @@ const NavBar = () => {
                         transition-all duration-200
                         '
 								type='button'
+								onClick={() => {
+									navigate('/create-hotels');
+								}}
 							>
 								list your property
 							</button>
