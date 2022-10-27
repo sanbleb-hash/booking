@@ -1,16 +1,18 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { registerStart, registerUser } from '../utils/features/auth/authSlice';
 
 const Login = () => {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const user = useSelector((state) => state.auth.user);
 
 	const [isLogin, setIsLogin] = useState(false);
 	const [formData, setFormData] = useState({
-		username: '',
+		name: '',
 		password: '',
 		email: '',
 		conformPassword: '',
@@ -29,28 +31,38 @@ const Login = () => {
 			};
 			const { data } = await axios.post('/api/auth', formData);
 			dispatch(registerUser({ payload: data }));
+			navigate('/');
+		} else {
+			const { data } = await axios.post('/api/auth/register', formData);
+			dispatch(registerUser({ payload: data }));
+			navigate('/');
 		}
 	};
-	const { username, password, email, conformPassword } = formData;
+	const { name, password, email, conformPassword } = formData;
+
+	useEffect(() => {
+		if (user) console.log(user);
+	}, [user]);
 
 	return (
 		<div className=' w-screen min-h-[70vh]  grid place-items-center mb-4 '>
 			<h1 className='text-center text-3xl md:text-5xl py-8'>
 				{!isLogin ? 'register' : 'login'}
 			</h1>
+
 			<form
 				onSubmit={handleSubmit}
 				className=' w-[60vw]  flex items-center justify-center flex-col gap-5   '
 			>
 				{!isLogin && (
 					<div className='flex flex-col w-3/4'>
-						<label htmlFor='username'>username</label>
+						<label htmlFor='name'>name</label>
 						<input
 							type='text'
-							name='username'
-							value={username}
+							name='name'
+							value={name}
 							onChange={handleChange}
-							placeholder='username'
+							placeholder='name'
 							className='focus:border-b-2 border-gray-400 focus:border-gray-400 focus:shadow-md focus:border-0 focus:ring-0 bg-slate-100'
 						/>
 					</div>

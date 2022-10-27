@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GiCheckeredFlag } from 'react-icons/gi';
 import { IoMdHelpCircleOutline } from 'react-icons/io';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { userLogout } from '../utils/features/auth/authSlice';
 import Button from './button';
 import { navDetails } from './nav-list';
 
 const NavBar = () => {
 	const navigate = useNavigate();
+	const user = useSelector((state) => state.auth.user);
+	const dispatch = useDispatch();
+
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	console.log(user);
 	return (
 		<nav className=' w-screen h-[25vh] bg-[#003580] my-auto pt-8  '>
 			<div className='nav-container flex flex-col items-start justify-between w-[90vw] h-[18vh] m-auto  '>
@@ -39,17 +47,40 @@ const NavBar = () => {
 									navigate('/login');
 								}}
 							/>
-							<Button
-								text={`text-brand-primary`}
-								title={'sign in'}
-								color={'#003580'}
-								margin={'10px'}
-								type={'button'}
-								className='px-4 py-3 '
-								onClick={() => {
-									navigate('/login');
-								}}
-							/>
+							{user ? (
+								<span
+									onMouseEnter={() => setIsModalOpen(!isModalOpen)}
+									className='text-white text-3xl relative px-3 z-50'
+								>
+									{user?.name}
+									{isModalOpen && (
+										<span
+											className='shadow-lg shadow-white p-3 text-white bg-inherit absolute -bottom-16 -left-2'
+											onMouseEnter={() => setIsModalOpen(true)}
+											onMouseLeave={() => setIsModalOpen(false)}
+											onClick={() => {
+												dispatch(userLogout());
+												setIsModalOpen(false);
+											}}
+										>
+											{' '}
+											logout
+										</span>
+									)}
+								</span>
+							) : (
+								<Button
+									text={`text-brand-primary`}
+									title={'sign in'}
+									color={'#003580'}
+									margin={'10px'}
+									type={'button'}
+									className='px-4 py-3 '
+									onClick={() => {
+										navigate('/login');
+									}}
+								/>
+							)}
 						</div>
 					</div>
 				</div>
