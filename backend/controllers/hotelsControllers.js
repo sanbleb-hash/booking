@@ -3,8 +3,10 @@ import Room from '../modals/roomModal.js';
 
 export const createHotel = async (req, res) => {
 	const hotel = req.body;
+	const user = req.user;
+	if (!user) return res.status(401).send('user not found');
 	try {
-		const createdHotel = await Hotel.create(hotel);
+		const createdHotel = await Hotel.create({ ...hotel, user: user });
 		await createdHotel.save();
 		res.status(201).json(createdHotel);
 	} catch (err) {
@@ -34,6 +36,8 @@ export const getHotel = async (req, res) => {
 };
 
 export const createRoom = async (req, res) => {
+	const user = req.user;
+	if (!user) return res.status(401).send('user not found');
 	const { name, roomNumber, description, price, maxPeople, photos } = req.body;
 	const hotelId = req.params.id;
 	try {
@@ -59,6 +63,8 @@ export const createRoom = async (req, res) => {
 };
 
 export const editHotel = async (req, res) => {
+	const user = req.user;
+	if (!user) return res.status(401).send('user not found');
 	const id = req.params.id;
 	const hotelDetails = req.body;
 	try {
@@ -81,6 +87,8 @@ export const editHotel = async (req, res) => {
 };
 
 export const deleteHotel = async (req, res) => {
+	const user = req.user;
+	if (!user) return res.status(401).send('user not found');
 	const id = req.params.id;
 	try {
 		if (id) {

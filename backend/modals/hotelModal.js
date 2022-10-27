@@ -11,6 +11,7 @@ const hotelSchema = new mongoose.Schema(
 			enum: ['hotel', 'b&b', 'lodge'],
 			required: true,
 		},
+		user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 		city: {
 			type: String,
 			required: true,
