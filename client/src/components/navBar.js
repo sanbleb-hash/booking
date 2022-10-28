@@ -57,7 +57,7 @@ const NavBar = () => {
 									{user?.name}
 									{isModalOpen && (
 										<span
-											className='shadow-lg shadow-white p-3 text-white bg-inherit absolute -bottom-16 -left-2'
+											className='shadow-md text-xl shadow-yellow-200 p-3 text-white bg-blue-800 absolute -bottom-16  left-1'
 											onMouseEnter={() => setIsModalOpen(true)}
 											onMouseLeave={() => setIsModalOpen(false)}
 											onClick={() => {

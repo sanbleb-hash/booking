@@ -2,58 +2,89 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { HiOutlinePhotograph } from 'react-icons/hi';
 import { IoMdSend } from 'react-icons/io';
 import { RiLoader4Fill } from 'react-icons/ri';
-import { createHotel } from '../utils/features/hotels/hotelsSlice';
 
-const CreateHotel = () => {
+const CreatedHotel = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.auth.user);
-	const { isLoading } = useSelector((state) => state.hotels);
+	const { isLoading, hotel } = useSelector((state) => state.hotels);
 
 	const [formData, setFormData] = useState({
 		user: user?._id,
-		name: '',
-		city: '',
-		description: '',
-		type: '',
-		address: '',
-		distance: '',
-		cheapestPrice: '',
+		name: hotel.name || '',
+		city: hotel.city || '',
+		description: hotel.description || '',
+		type: hotel.type || '',
+		address: hotel.address || '',
+		distance: hotel.distance || '',
+		cheapestPrice: hotel.cheapestPrice || '',
+		photo: '',
 	});
 
 	const handleChange = (e) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
+		if (e.target.files) {
+			setFormData((prevState) => ({
+				...prevState,
+			}));
+		} else {
+			setFormData({ ...formData, [e.target.name]: e.target.value });
+		}
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		const token = user?.token;
+		const id = hotel?._id;
 
-		dispatch(createHotel(formData, token))
-			.unwrap()
-			.then(() => {
-				// We got a good response so navigate the user
-				navigate('/edit-hotel');
-				toast.success('New ticket created!');
-			})
-			.catch(toast.error);
+		// dispatch(editHotel({ formData, id }, token))
+		// 	.unwrap()
+		// 	.then(() => {
+		// 		// We got a good response so navigate the user
+		// 		navigate('/hotel');
+		// 		toast.success('New ticket created!');
+		// 	})
+		// 	.catch(toast.error);
+		console.log(photo);
 	};
 
-	const { name, city, description, type, address, distance, cheapestPrice } =
-		formData;
+	const {
+		name,
+		city,
+		description,
+		type,
+		address,
+		distance,
+		cheapestPrice,
+		photo,
+	} = formData;
 
 	return (
 		<div className=' w-screen min-h-[70vh]  grid place-items-center mb-4 text-gray-600   '>
 			<h1 className='text-center text-3xl md:text-5xl py-8'>
-				create a new attraction
+				add more or twick your attraction
 			</h1>
 
 			<form
 				onSubmit={handleSubmit}
 				className=' w-[60vw]  flex items-center justify-center flex-col gap-5 mx-20  '
 			>
+				<label
+					className='text-lg text-gray-400 pb-2 self-center md:self-start flex items-center gap-4 md:pl-28 '
+					htmlFor='photo'
+				>
+					click to add burner photo <HiOutlinePhotograph size={30} />
+				</label>
+				<input
+					hidden
+					type='file'
+					id='photo'
+					onChange={handleChange}
+					placeholder='cheapest price'
+					className='focus:border-b-2 border-gray-400 focus:border-gray-400 focus:shadow-md focus:border-0 focus:ring-0 bg-slate-100'
+				/>
 				<div className='flex flex-col md:flex-row gap-3 items-center  justify-between mx-auto w-3/4'>
 					<div className='flex flex-col flex-1 md:w-[33%] w-full'>
 						<label className='text-sm text-gray-400 pb-2' htmlFor='city'>
@@ -148,7 +179,7 @@ const CreateHotel = () => {
 					<label className='text-sm text-gray-400 pb-2' htmlFor='description'>
 						description
 					</label>
-					<input
+					<textarea
 						type='text'
 						name='description'
 						value={description}
@@ -173,4 +204,4 @@ const CreateHotel = () => {
 	);
 };
 
-export default CreateHotel;
+export default CreatedHotel;

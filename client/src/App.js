@@ -3,6 +3,7 @@ import Footer from './components/footer';
 import NavBar from './components/navBar';
 import CreateHotel from './pages/createHotel';
 import Home from './pages/home';
+import CreatedHotel from './pages/editHotel';
 import Hotels from './pages/hotels';
 import Login from './pages/login';
 import SearchPage from './pages/searchPage';
@@ -20,6 +21,7 @@ function App() {
 					<Route path='/search' element={<SearchPage />} />
 					<Route path='/hotels/:id' element={<Hotel />} />
 					<Route path='/create-hotels' element={<CreateHotel />} />
+					<Route path='/edit-hotel' element={<CreatedHotel />} />
 				</Routes>
 				<Footer />
 			</Router>

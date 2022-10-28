@@ -6,7 +6,7 @@ const initialState = {
 	hotels: [],
 	isLoading: false,
 	isError: false,
-	errer: '',
+	error: '',
 };
 
 // create hotel api
@@ -21,18 +21,38 @@ export const createHotel = createAsyncThunk(
 		}
 	}
 );
+// edit hotel api
+export const editHotel = createAsyncThunk(
+	'edit/hotel',
+	async ({ hotelData, _ }, thunkAPI) => {
+		const token = thunkAPI.getState().auth.user.token;
+		const id = thunkAPI.getState().auth.hotel._id;
+		try {
+			console.log(id);
+			return await hotelService.editHotel(hotelData, id, token);
+		} catch (err) {
+			return thunkAPI.rejectWithValue(err.message);
+		}
+	}
+);
 
 export const hotelSlice = createSlice({
 	name: 'hotels',
 	initialState,
 	reducers: {},
-	extraReducers: (builders) => {
-		// builders
-		// 	.addCase(createHotel.pending, (state) => (state.isLoading = true))
-		// 	.addCase(createHotel.fulfilled, (state, action) => {
-		// 		state.isLoading = false;
-		// 		state.hotel = action.payload;
-		// 	});
+	extraReducers: (builder) => {
+		builder
+			.addCase(createHotel.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(createHotel.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.hotel = action.payload;
+			})
+			.addCase(createHotel.rejected, (state, action) => {
+				state.isError = true;
+				state.error = action.payload;
+			});
 	},
 });
 
