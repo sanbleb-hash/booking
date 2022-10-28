@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -9,6 +10,10 @@ import { RiLoader4Fill } from 'react-icons/ri';
 const CreatedHotel = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+
+	const [loading, setIsLoading] = useState(false);
+
+	const [showUpload, setShowUpLoad] = useState(false);
 	const user = useSelector((state) => state.auth.user);
 	const { isLoading, hotel } = useSelector((state) => state.hotels);
 
@@ -21,7 +26,7 @@ const CreatedHotel = () => {
 		address: hotel.address || '',
 		distance: hotel.distance || '',
 		cheapestPrice: hotel.cheapestPrice || '',
-		photo: '',
+		photo: {},
 	});
 
 	const handleChange = (e) => {
@@ -48,6 +53,38 @@ const CreatedHotel = () => {
 		// 	})
 		// 	.catch(toast.error);
 		console.log(photo);
+	};
+
+	const upLoadToCloudnary = async (e, imageField = 'photo') => {
+		e.preventDefault();
+		const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/auto/upload`;
+		try {
+			setShowUpLoad(true);
+			const {
+				data: { signature, timestamp },
+			} = await axios.post('/api/resource/upload');
+
+			const upload = e.target.files[0];
+			const formInput = new FormData();
+
+			formInput.append('file', upload);
+			formInput.append('signature', signature);
+			formInput.append('timestamp', timestamp);
+
+			formInput.append('api_key', process.env.REACT_APP_CLOUDINARY_API_KEY);
+			const { data } = await axios.post(url, formInput, {
+				headers: { 'Content-Type': 'multipart/form-data' },
+			});
+
+			setShowUpLoad(false);
+			toast.success('image successfully uploaded');
+			setFormData({
+				...formData,
+				photo: { photo: data.secure_url, public_id: data.public_id },
+			});
+		} catch (err) {
+			toast.error({ message: err.message });
+		}
 	};
 
 	const {
@@ -77,11 +114,15 @@ const CreatedHotel = () => {
 				>
 					click to add burner photo <HiOutlinePhotograph size={30} />
 				</label>
+				{showUpload && (
+					<RiLoader4Fill className=' animate-spin' fill='green' size={32} />
+				)}
+
 				<input
 					hidden
 					type='file'
 					id='photo'
-					onChange={handleChange}
+					onChange={upLoadToCloudnary}
 					placeholder='cheapest price'
 					className='focus:border-b-2 border-gray-400 focus:border-gray-400 focus:shadow-md focus:border-0 focus:ring-0 bg-slate-100'
 				/>
@@ -191,7 +232,7 @@ const CreatedHotel = () => {
 
 				<button className=' self-end  ' type='submit'>
 					{' '}
-					{isLoading ? (
+					{loading ? (
 						<RiLoader4Fill className=' animate-spin text-blue-900 size={25} ' />
 					) : (
 						<span className='flex gap-2 items-center hover:border border-blue-900 hover:text-white px-4 py-1 hover:bg-blue-200 transition-all ease-linear '>
