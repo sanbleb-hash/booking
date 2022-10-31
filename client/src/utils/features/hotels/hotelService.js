@@ -1,10 +1,17 @@
 import axios from 'axios';
 const baseUrl = '/api/hotels';
 
-// get hotels from backend
+// get featured hotels from backend
 
 const getHotels = async () => {
-	const { data } = await axios.get(baseUrl);
+	const { data } = await axios.get(`${baseUrl}/featured`);
+
+	const { hotels, type } = data;
+	return { hotels, type };
+};
+// get hotels by type
+const getByType = async (type) => {
+	const { data } = await axios.get(`${baseUrl}?type=${type}`);
 	return data;
 };
 
@@ -33,6 +40,7 @@ const hotelService = {
 	createHotel,
 	editHotel,
 	getHotels,
+	getByType,
 };
 
 export default hotelService;
