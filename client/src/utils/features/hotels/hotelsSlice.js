@@ -4,6 +4,7 @@ import hotelService from './hotelService';
 const initialState = {
 	hotel: {},
 	hotels: [],
+	types: [],
 	isLoading: false,
 	isError: false,
 	error: '',
@@ -18,6 +19,18 @@ export const getHotels = createAsyncThunk('get/hotels', async (_, thunkAPI) => {
 		return thunkAPI.rejectWithValue(err.message);
 	}
 });
+// get hotels by type api
+
+export const getByType = createAsyncThunk(
+	'get/hotels',
+	async (type, thunkAPI) => {
+		try {
+			return await hotelService.getByType(type);
+		} catch (err) {
+			return thunkAPI.rejectWithValue(err.message);
+		}
+	}
+);
 
 // create hotel api
 export const createHotel = createAsyncThunk(
@@ -56,7 +69,8 @@ export const hotelSlice = createSlice({
 			})
 			.addCase(getHotels.fulfilled, (state, action) => {
 				state.isLoading = false;
-				state.hotels = action.payload;
+				state.hotels = action.payload.hotels;
+				state.types = action.payload.type;
 			})
 			.addCase(getHotels.rejected, (state, action) => {
 				state.isError = true;
