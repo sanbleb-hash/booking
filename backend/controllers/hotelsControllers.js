@@ -14,10 +14,33 @@ export const createHotel = async (req, res) => {
 	}
 };
 
+// get  hotels by type
+export const getHotelsByType = async (req, res) => {
+	try {
+		const hotelsByType = await Hotel.find({
+			type: req.query.type,
+		});
+		res.status(200).json(hotelsByType);
+	} catch (err) {
+		throw new Error(err.message);
+	}
+};
+
+// get featured hotels
 export const getHotels = async (req, res) => {
 	try {
-		const hotels = await Hotel.find({});
+		const hotels = await Hotel.find({ featured: true });
 		res.status(200).json(hotels);
+	} catch (err) {
+		throw new Error(err.message);
+	}
+};
+
+// get ll hotels
+export const hotels = async (req, res) => {
+	try {
+		const allHotels = await Hotel.find({});
+		res.status(200).json(allHotels);
 	} catch (err) {
 		throw new Error(err.message);
 	}
@@ -27,7 +50,7 @@ export const getHotel = async (req, res) => {
 	const id = req.params.id;
 	try {
 		if (id) {
-			const hotel = await Hotel.find({ id });
+			const hotel = await Hotel.findById(id);
 			res.status(200).json(hotel);
 		}
 	} catch (err) {
