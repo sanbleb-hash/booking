@@ -1,6 +1,7 @@
 import Hotel from '../modals/hotelModal.js';
 import Room from '../modals/roomModal.js';
 
+//create a hotel instance
 export const createHotel = async (req, res) => {
 	const hotel = req.body;
 	const user = req.user;
@@ -29,8 +30,10 @@ export const getHotelsByType = async (req, res) => {
 // get featured hotels
 export const getHotels = async (req, res) => {
 	try {
+		const type = await Hotel.distinct('type');
+
 		const hotels = await Hotel.find({ featured: true });
-		res.status(200).json(hotels);
+		res.status(200).json({ hotels, type });
 	} catch (err) {
 		throw new Error(err.message);
 	}

@@ -8,6 +8,7 @@ import Hotels from './pages/hotels';
 import Login from './pages/login';
 import SearchPage from './pages/searchPage';
 import Hotel from './pages/singleHotel';
+import Type from './pages/type';
 
 function App() {
 	return (
@@ -22,6 +23,8 @@ function App() {
 					<Route path='/hotels/:id' element={<Hotel />} />
 					<Route path='/create-hotels' element={<CreateHotel />} />
 					<Route path='/edit-hotel' element={<CreatedHotel />} />
+
+					<Route path='/featured/:typeId' element={<Type />} />
 				</Routes>
 				<Footer />
 			</Router>
