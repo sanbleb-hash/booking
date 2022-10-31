@@ -7,6 +7,8 @@ import {
 	editHotel,
 	getHotel,
 	getHotels,
+	getHotelsByType,
+	hotels,
 } from '../controllers/hotelsControllers.js';
 import {
 	deleteRoom,
@@ -17,7 +19,9 @@ import {
 
 const handler = express.Router();
 
-handler.route('/').get(getHotels).post(verify, createHotel);
+handler.route('/').get(hotels).post(verify, createHotel);
+handler.route('/featured').get(getHotels);
+handler.route('/type').get(getHotelsByType);
 handler
 	.route('/:id')
 	.get(getHotel)
