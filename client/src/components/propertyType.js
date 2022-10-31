@@ -1,40 +1,35 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { getHotels } from '../utils/features/hotels/hotelsSlice';
 
 const PropertyType = () => {
-	const [propertyType, setPropertyType] = useState('');
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const types = useSelector((state) => state.hotels.types);
 
 	useEffect(() => {
-		const fetchProperty = async () => {
-			const { data } = await axios.get(
-				'http://localhost:1337/api/properties?populate[name]'
-			);
-			setPropertyType(data);
-		};
-		fetchProperty();
-	}, []);
+		dispatch(getHotels());
+	}, [dispatch]);
 
 	return (
 		<div className='h-[300px] z-10 flex items-center'>
-			{propertyType &&
-				propertyType.data.map((property) => (
-					<div
-						className='flex gap-4 h-full p-2 flex-col rounded-md overflow-hidden'
-						key={property.id}
-					>
-						<img
-							src={property.attributes.image}
-							alt='placeholder'
-							className='h-3/4 object-cover rounded-md w-[200px]'
-						/>
-						<div>
-							<h1 className='text-gray-800 font-semibold'>
-								{property.attributes.type}
-							</h1>
-							<p className='text-gray-500'>858,567 hotels</p>
-						</div>
+			{types.map((property, i) => (
+				<div
+					className='flex gap-4 h-full p-2 flex-col rounded-md overflow-hidden'
+					key={i}
+					onClick={() => navigate(`/featured/${property}`)}
+				>
+					<img
+						src='https://media.istockphoto.com/photos/classic-italian-appartement-picture-id1290254343?b=1&k=20&m=1290254343&s=170667a&w=0&h=fjFhURiEyDW8au7_iwhjkpxTvFzGM9bFY4SZxzlyMzU='
+						alt='placeholder'
+						className='h-3/4 object-cover rounded-md w-[200px]'
+					/>
+					<div>
+						<h1 className='text-gray-800 font-semibold'>{property}</h1>
 					</div>
-				))}
+				</div>
+			))}
 		</div>
 	);
 };
