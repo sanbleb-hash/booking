@@ -12,7 +12,6 @@ const Home = () => {
 
 	useEffect(() => {
 		dispatch(getHotels());
-		console.log(hotels);
 	}, [dispatch]);
 
 	if (isLoading) {
