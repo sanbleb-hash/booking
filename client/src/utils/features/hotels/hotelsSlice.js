@@ -24,11 +24,10 @@ export const createHotel = createAsyncThunk(
 // edit hotel api
 export const editHotel = createAsyncThunk(
 	'edit/hotel',
-	async ({ hotelData, _ }, thunkAPI) => {
+	async (hotelData, thunkAPI) => {
 		const token = thunkAPI.getState().auth.user.token;
-		const id = thunkAPI.getState().auth.hotel._id;
+		const id = thunkAPI.getState().hotels.hotel._id;
 		try {
-			console.log(id);
 			return await hotelService.editHotel(hotelData, id, token);
 		} catch (err) {
 			return thunkAPI.rejectWithValue(err.message);
@@ -50,6 +49,17 @@ export const hotelSlice = createSlice({
 				state.hotel = action.payload;
 			})
 			.addCase(createHotel.rejected, (state, action) => {
+				state.isError = true;
+				state.error = action.payload;
+			})
+			.addCase(editHotel.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(editHotel.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.hotel = action.payload;
+			})
+			.addCase(editHotel.rejected, (state, action) => {
 				state.isError = true;
 				state.error = action.payload;
 			});
