@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Featured from '../components/featured';
 import Header from '../components/header';
 import MailList from '../components/mailList';
 import PropertyType from '../components/propertyType';
+import { getHotels } from '../utils/features/hotels/hotelsSlice';
 
 const Home = () => {
+	const { isLoading, hotels } = useSelector((state) => state.hotels);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getHotels());
+		console.log(hotels);
+	}, [dispatch]);
+
+	if (isLoading) {
+		<span className=''>loading...</span>;
+	}
 	return (
 		<main className=''>
 			<Header />

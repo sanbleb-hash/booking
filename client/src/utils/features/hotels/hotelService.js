@@ -1,6 +1,13 @@
 import axios from 'axios';
 const baseUrl = '/api/hotels';
 
+// get hotels from backend
+
+const getHotels = async () => {
+	const { data } = await axios.get(baseUrl);
+	return data;
+};
+
 const createHotel = async (formData, token) => {
 	const config = {
 		headers: {
@@ -25,6 +32,7 @@ const editHotel = async (formData, hotelId, token) => {
 const hotelService = {
 	createHotel,
 	editHotel,
+	getHotels,
 };
 
 export default hotelService;

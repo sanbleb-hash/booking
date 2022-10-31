@@ -9,6 +9,16 @@ const initialState = {
 	error: '',
 };
 
+// get hotels api
+
+export const getHotels = createAsyncThunk('get/hotels', async (_, thunkAPI) => {
+	try {
+		return await hotelService.getHotels();
+	} catch (err) {
+		return thunkAPI.rejectWithValue(err.message);
+	}
+});
+
 // create hotel api
 export const createHotel = createAsyncThunk(
 	'create/hotel',
@@ -41,6 +51,17 @@ export const hotelSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		builder
+			.addCase(getHotels.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(getHotels.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.hotels = action.payload;
+			})
+			.addCase(getHotels.rejected, (state, action) => {
+				state.isError = true;
+				state.error = action.payload;
+			})
 			.addCase(createHotel.pending, (state) => {
 				state.isLoading = true;
 			})
