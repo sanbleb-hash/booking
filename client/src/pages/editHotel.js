@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 import { HiOutlinePhotograph } from 'react-icons/hi';
 import { IoMdSend } from 'react-icons/io';
 import { RiLoader4Fill } from 'react-icons/ri';
+import { editHotel } from '../utils/features/hotels/hotelsSlice';
+import Spinner from '../components/spinner';
 
 const CreatedHotel = () => {
 	const navigate = useNavigate();
@@ -18,7 +20,7 @@ const CreatedHotel = () => {
 	const { isLoading, hotel } = useSelector((state) => state.hotels);
 
 	const [formData, setFormData] = useState({
-		user: user?._id,
+		user: hotel?.user,
 		name: hotel.name || '',
 		city: hotel.city || '',
 		description: hotel.description || '',
@@ -42,17 +44,15 @@ const CreatedHotel = () => {
 		e.preventDefault();
 
 		const token = user?.token;
-		const id = hotel?._id;
 
-		// dispatch(editHotel({ formData, id }, token))
-		// 	.unwrap()
-		// 	.then(() => {
-		// 		// We got a good response so navigate the user
-		// 		navigate('/hotel');
-		// 		toast.success('New ticket created!');
-		// 	})
-		// 	.catch(toast.error);
-		console.log(photo);
+		dispatch(editHotel(formData, token))
+			.unwrap()
+			.then(() => {
+				// We got a good response so navigate the user
+				navigate('/');
+				toast.success('your attraction has been successfully updated!');
+			})
+			.catch(toast.error);
 	};
 
 	const upLoadToCloudnary = async (e, imageField = 'photo') => {
@@ -86,6 +86,9 @@ const CreatedHotel = () => {
 			toast.error({ message: err.message });
 		}
 	};
+	if (isLoading) {
+		<Spinner />;
+	}
 
 	const {
 		name,
@@ -114,6 +117,7 @@ const CreatedHotel = () => {
 				>
 					click to add burner photo <HiOutlinePhotograph size={30} />
 				</label>
+
 				{showUpload && (
 					<RiLoader4Fill className=' animate-spin' fill='green' size={32} />
 				)}
@@ -229,6 +233,9 @@ const CreatedHotel = () => {
 						className='focus:border-b-2 border-gray-400 focus:border-gray-400 focus:shadow-md focus:border-0 focus:ring-0 bg-slate-100'
 					/>
 				</div>
+				{photo && photo.length && (
+					<input type='text' disabled value={photo.photo} />
+				)}
 
 				<button className=' self-end  ' type='submit'>
 					{' '}
