@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
 	FaArrowAltCircleLeft,
 	FaArrowAltCircleRight,
 	FaTimes,
 } from 'react-icons/fa';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import Spinner from '../components/spinner';
 
 const Hotel = () => {
+	const { id } = useParams();
+	const [property, setProperty] = useState({});
+	const [rooms, setPropertyRooms] = useState([]);
+	const [loading, setSetLoading] = useState(false);
+
 	const [showModel, setShowModel] = useState(false);
 	const [slideNumber, setSlideNumber] = useState(0);
+	const [iframe, setIframe] = useState('');
 	const photos = [
 		{
 			src: 'https://images.unsplash.com/photo-1562590980-1bfb0699efd9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2FwZXRvd258ZW58MHx8MHx8&auto=format&fit=crop&w=400&q=60',
@@ -36,7 +45,8 @@ const Hotel = () => {
 	];
 	const handleOpen = (i) => {
 		setShowModel(true);
-		setSlideNumber(i);
+		setIframe(i);
+		console.log(i);
 	};
 	const handleslides = (direction) => {
 		if (direction === 'left') {
@@ -50,17 +60,44 @@ const Hotel = () => {
 		}
 	};
 
+	useEffect(() => {
+		// get hotels by type
+		setSetLoading(true);
+		const getByType = async () => {
+			const { data } = await axios.get(`/api/hotels/${id}`);
+			setSetLoading(false);
+			setProperty(data);
+		};
+		getByType();
+	}, [id]);
+	useEffect(() => {
+		// get hotels by type
+		setSetLoading(true);
+		const getByType = async () => {
+			const { data } = await axios.get(`/api/hotels/rooms/${id}`);
+			setSetLoading(false);
+			setPropertyRooms(data);
+		};
+		getByType();
+	}, [id]);
+
+	if (loading) {
+		<Spinner />;
+	}
+
 	return (
 		<main className='w-screen min-h-screen bg-slate-100 relative '>
+			<Link to={`/featured/${property.type}`}>
+				<FaArrowAltCircleLeft fill='gray' size={32} className=' ml-8 mt-6 ' />
+			</Link>
 			{showModel && (
 				<div className='w-screen min-h-[90vh] bg-black/60  inset-0 sticky overflow-hidden'>
 					<div className='flex items-center justify-center w-[75vw] h-[60vh] my-20 mx-auto border-2  '>
 						<img
-							src={photos[slideNumber].src}
-							alt={photos[slideNumber].alt}
+							src={iframe}
+							alt='slider foto'
 							className=' object-cover w-full h-full'
 						/>
-
 						<FaArrowAltCircleLeft
 							className=' cursor-pointer absolute top-1/2 left-14 hover:scale-105 transition-all text-3xl text-slate-200 delay-100 ease-out '
 							onClick={(left) => {
@@ -90,16 +127,16 @@ const Hotel = () => {
 				<section className='header-container flex  items-start py-5 justify-between  '>
 					<div className=' flex-left-container flex flex-col items-start '>
 						<h1 className='pb-5 text-2xl text-gray-700 text-center '>
-							tower street hotel
+							{property?.name}
 						</h1>
 						<div className='flex flex-col items-start '>
-							<small className='text-gray-500'>5, boston rd, mst</small>
+							<small className='text-gray-500'>{property?.address}</small>
 							<p className=' text-blue-500 text-sm'>
-								Excelent location -500m from the center
+								Excelent location {property?.distance}m from the center
 							</p>
 							<p className=' text-gray-600'>
-								book a stay from $114 and enjoy the luxury of the tower street
-								hotel
+								book a stay from ${property?.cheapestPrice}and enjoy the luxury
+								of the tower street hotel
 							</p>
 						</div>
 					</div>
@@ -109,20 +146,30 @@ const Hotel = () => {
 				</section>
 
 				<section className='py-4'>
-					<div className='flex  items-start gap-3 border border-slate-200 p-6 flex-wrap justify-start '>
-						{photos.map((photo, index) => (
-							<div
-								key={index}
-								className=' h-[250px]    max-w-[350px] rounded-md overflow-hidden '
-							>
-								<img
-									src={photo.src}
-									alt={photo.alt}
-									className='w-full object-cover h-full'
-									onClick={() => handleOpen(index)}
-								/>
-							</div>
-						))}
+					<div className='flex  items-start gap-3 border border-slate-200 w-[80vw] mx-auto p-6 flex-wrap justify-start '>
+						{rooms.length ? (
+							rooms.map((room) =>
+								room.photos?.map((photo) => (
+									<div className='flex min-w-[30%] h-[350px] key={room._id} '>
+										<img
+											src={photo}
+											alt='rooms pics'
+											className='w-[400px] object-cover h-full'
+											onClick={() => {
+												handleOpen(photo);
+											}}
+										/>
+									</div>
+								))
+							)
+						) : (
+							<img
+								src={property?.photo?.photo}
+								alt={property?.name}
+								className='lg:w-[40%] w-full object-cover h-[40%]'
+								onClick={() => handleOpen(property.photo.photo)}
+							/>
+						)}
 					</div>
 				</section>
 				<section className='grid grid-cols-3 items-start justify-between py-5'>
@@ -132,13 +179,10 @@ const Hotel = () => {
                '
 					>
 						<h1 className=' text-gray-800 font-semibold tracking-wide text-lg'>
-							stay in the heart of Kraken
+							stay in the heart of {property?.city}
 						</h1>
 						<p className='text-gray-600 tracking-wide pr-4 '>
-							Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-							Perspiciatis numquam dolores a corporis modi ad earum in minus
-							excepturi veniam et debitis, quasi repellendus repellat facere
-							suscipit vitae ut sint?
+							{property?.description}
 						</p>
 					</div>
 					<div
@@ -149,9 +193,9 @@ const Hotel = () => {
                '
 					>
 						<h1 className='text-gray-800 font-semibold pb-4 '>
-							stay in the heart of Kraken
+							stay in the heart of {property?.city}
 						</h1>
-						<p>location is the best on the internet haha </p>
+						<p>{property?.description} </p>
 						<span className=' text-gray-600 py-3 inline-block '>
 							<strong>$945</strong>(6 nights)
 						</span>

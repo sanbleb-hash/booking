@@ -9,11 +9,6 @@ const getHotels = async () => {
 	const { hotels, type } = data;
 	return { hotels, type };
 };
-// get hotels by type
-const getByType = async (type) => {
-	const { data } = await axios.get(`${baseUrl}?type=${type}`);
-	return data;
-};
 
 const createHotel = async (formData, token) => {
 	const config = {
@@ -40,7 +35,6 @@ const hotelService = {
 	createHotel,
 	editHotel,
 	getHotels,
-	getByType,
 };
 
 export default hotelService;
