@@ -4,10 +4,11 @@ import Featured from '../components/featured';
 import Header from '../components/header';
 import MailList from '../components/mailList';
 import PropertyType from '../components/propertyType';
+import Spinner from '../components/spinner';
 import { getHotels } from '../utils/features/hotels/hotelsSlice';
 
 const Home = () => {
-	const { isLoading, hotels } = useSelector((state) => state.hotels);
+	const { isLoading } = useSelector((state) => state.hotels);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -16,6 +17,10 @@ const Home = () => {
 
 	if (isLoading) {
 		<span className=''>loading...</span>;
+	}
+
+	if (isLoading) {
+		<Spinner />;
 	}
 	return (
 		<main className=''>
