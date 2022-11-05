@@ -5,9 +5,13 @@ import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { searchHotels } from '../utils/features/hotels/hotelsSlice';
 
 const SearchComponent = () => {
 	const navigate = useNavigate();
+
+	const dispatch = useDispatch();
 
 	const [options, setOptions] = useState({
 		adults: 1,
@@ -36,7 +40,8 @@ const SearchComponent = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		navigate('/search/');
+		navigate(`/search?cities=${text}`);
+		dispatch(searchHotels(text));
 		localStorage.setItem(
 			'searchOptions',
 			JSON.stringify({ occupants: options, dates: date, destination: text })
