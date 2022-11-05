@@ -41,9 +41,25 @@ export const getHotels = async (req, res) => {
 
 // get ll hotels
 export const hotels = async (req, res) => {
+	const cities = req.query.cities
+		? {
+				city: {
+					$regex: req.query.cities,
+					$options: 'i',
+				},
+		  }
+		: {};
+	const pageSize = 5;
+	const pageNumber = Number(req.query.pageNumber) || 1;
+
 	try {
-		const allHotels = await Hotel.find({});
-		res.status(200).json(allHotels);
+		const count = await Hotel.countDocuments({ ...cities });
+		const allHotels = await Hotel.find({ ...cities })
+			.limit(pageSize)
+			.skip(pageNumber * (pageNumber - 1));
+		res
+			.status(200)
+			.json({ allHotels, pageNumber, pages: Math.ceil(count / pageSize) });
 	} catch (err) {
 		throw new Error(err.message);
 	}
