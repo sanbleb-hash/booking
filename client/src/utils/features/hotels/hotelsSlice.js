@@ -5,6 +5,8 @@ const initialState = {
 	hotel: {},
 	hotels: [],
 	types: [],
+	page: 1,
+	pages: 1,
 	isLoading: false,
 	isError: false,
 	error: '',
@@ -46,6 +48,18 @@ export const editHotel = createAsyncThunk(
 	}
 );
 
+// get hotels by search
+export const searchHotels = createAsyncThunk(
+	'search/hotels',
+	async (keyword, page, thunkAPI) => {
+		try {
+			return await hotelService.searchHotels(keyword, page);
+		} catch (err) {
+			return thunkAPI.rejectWithValue(err.message);
+		}
+	}
+);
+
 export const hotelSlice = createSlice({
 	name: 'hotels',
 	initialState,
@@ -61,6 +75,19 @@ export const hotelSlice = createSlice({
 				state.types = action.payload.type;
 			})
 			.addCase(getHotels.rejected, (state, action) => {
+				state.isError = true;
+				state.error = action.payload;
+			})
+			.addCase(searchHotels.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(searchHotels.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.hotels = action.payload.allHotels;
+				state.page = action.payload.pageNumber;
+				state.pages = action.payload.pages;
+			})
+			.addCase(searchHotels.rejected, (state, action) => {
 				state.isError = true;
 				state.error = action.payload;
 			})
