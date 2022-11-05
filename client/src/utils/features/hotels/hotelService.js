@@ -10,6 +10,18 @@ const getHotels = async () => {
 	return { hotels, type };
 };
 
+// get and search hotels api
+
+const searchHotels = async (keyword, page) => {
+	const { data } = await axios.get(
+		`${baseUrl}?cities=${keyword}&pageNumber=${page}`
+	);
+
+	const { allHotels, pageNumber, pages } = data;
+	return { allHotels, pageNumber, pages };
+};
+
+// create hotel api
 const createHotel = async (formData, token) => {
 	const config = {
 		headers: {
@@ -20,6 +32,8 @@ const createHotel = async (formData, token) => {
 
 	return data;
 };
+
+// edit hotel api
 const editHotel = async (formData, hotelId, token) => {
 	const config = {
 		headers: {
@@ -35,6 +49,7 @@ const hotelService = {
 	createHotel,
 	editHotel,
 	getHotels,
+	searchHotels,
 };
 
 export default hotelService;
