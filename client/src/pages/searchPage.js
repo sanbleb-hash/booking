@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Pagenate from '../components/pagenate';
 import Spinner from '../components/spinner';
 import { searchHotels } from '../utils/features/hotels/hotelsSlice';
@@ -9,6 +10,9 @@ const SearchPage = () => {
 	const dispatch = useDispatch();
 	const { isLoading, hotels } = useSelector((state) => state.hotels);
 	const navigate = useNavigate();
+	const term = useLocation();
+
+	const param = term.search.split('=')[1];
 
 	const search = JSON.parse(localStorage.getItem('searchOptions'));
 	const chechIn = search.dates[0].startDate;
@@ -43,9 +47,9 @@ const SearchPage = () => {
 		rooms,
 	} = formData;
 
-	if (isLoading) {
-		<Spinner />;
-	}
+	useEffect(() => {
+		dispatch(searchHotels(param));
+	}, [dispatch, param]);
 
 	return (
 		<section className='w-screen py-[40vh ] min-h-screen bg-slate-100 pb-10'>
@@ -154,65 +158,69 @@ const SearchPage = () => {
 					</div>
 				</form>
 
-				<aside className='flex flex-col items-start col-span-2'>
-					{hotels &&
-						hotels.map((hotel) => (
-							<div
-								className='flex  border border-gray-300 shadow-md w-full items-start h-[150px] cursor-pointer '
-								key={hotel._id}
-								onClick={() => navigate(`/hotels/${hotel._id}`)}
-							>
-								<div className='flex gap-4 h-full p-2 flex-col rounded-md overflow-hidden'>
-									<img
-										src={hotel.photo.photo}
-										alt={hotel.name}
-										className='h-full object-cover rounded-md w-[200px]'
-									/>
-								</div>
-								<div className='flex  gap-4 h-full p-2 items-start justify-between '>
-									<div className='p-2 flex-col flex '>
-										<h1 className='text-gray-800 font-semibold pb-2'>
-											{hotel.name}
-										</h1>
-										<small className='max-w-max bg-green-500 px-1 rounded-sm text-gray-50'>
-											8free airport taxis
-										</small>
-										<small className='  rounded-sm text-gray-500'>
-											{hotel.description.substring(20)}...
-										</small>
-										<small className='  rounded-sm text-green-300'>
-											free cancellation
-										</small>
-										<small className='  rounded-sm  text-green-500'>
-											you can cancel anytime before check in
-										</small>
+				{isLoading ? (
+					<Spinner />
+				) : (
+					<aside className='flex flex-col items-start col-span-2'>
+						{hotels &&
+							hotels.map((hotel) => (
+								<div
+									className='flex  border border-gray-300 shadow-md w-full items-start h-[150px] cursor-pointer '
+									key={hotel._id}
+									onClick={() => navigate(`/hotels/${hotel._id}`)}
+								>
+									<div className='flex gap-4 h-full p-2 flex-col rounded-md overflow-hidden'>
+										<img
+											src={hotel.photo.photo}
+											alt={hotel.name}
+											className='h-full object-cover rounded-md w-[200px]'
+										/>
 									</div>
+									<div className='flex  gap-4 h-full p-2 items-start justify-between '>
+										<div className='p-2 flex-col flex '>
+											<h1 className='text-gray-800 font-semibold pb-2'>
+												{hotel.name}
+											</h1>
+											<small className='max-w-max bg-green-500 px-1 rounded-sm text-gray-50'>
+												8free airport taxis
+											</small>
+											<small className='  rounded-sm text-gray-500'>
+												{hotel.description.substring(20)}...
+											</small>
+											<small className='  rounded-sm text-green-300'>
+												free cancellation
+											</small>
+											<small className='  rounded-sm  text-green-500'>
+												you can cancel anytime before check in
+											</small>
+										</div>
 
-									<div className='flex-col flex items-start '>
-										<h1 className='text-gray-800 font-semibold pb-2 '>
-											excelent
-										</h1>
-										<small className='max-w-max bg-green-500 px-1 rounded-sm text-gray-50'>
-											starting from $ {hotel.minPrice}/night
-										</small>
+										<div className='flex-col flex items-start '>
+											<h1 className='text-gray-800 font-semibold pb-2 '>
+												excelent
+											</h1>
+											<small className='max-w-max bg-green-500 px-1 rounded-sm text-gray-50'>
+												starting from $ {hotel.minPrice}/night
+											</small>
 
-										<small className='  rounded-sm text-gray-500'>
-											incluides taxes
-										</small>
-										<button
-											className='  rounded-sm
+											<small className='  rounded-sm text-gray-500'>
+												incluides taxes
+											</small>
+											<button
+												className='  rounded-sm
                         mt-4 px-2 text-sm 
                         border border-gray-200
 hover:bg-green-300 hover:border-green-500
                           text-gray-50 bg-green-500'
-										>
-											see availability
-										</button>
+											>
+												see availability
+											</button>
+										</div>
 									</div>
 								</div>
-							</div>
-						))}
-				</aside>
+							))}
+					</aside>
+				)}
 			</div>
 			<Pagenate destination={destination} />
 		</section>

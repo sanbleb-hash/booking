@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHotels } from '../utils/features/hotels/hotelsSlice';
 
@@ -6,6 +7,7 @@ const Featured = () => {
 	const { isLoading, hotels } = useSelector((state) => state.hotels);
 
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		dispatch(getHotels());
@@ -18,23 +20,24 @@ const Featured = () => {
 
 	if (isLoading) <span>loading...</span>;
 	return (
-		<section className='w-[90vw] mx-auto bg-slate-100 pt-16'>
-			<div className='grid grid-rows-2 grid-cols-3 gap-4 h-[70vh]'>
-				<div className='col-span-3 flex gap-3   '>
+		<section className='w-[90vw] mx-auto bg-slate-100 min-h-[70h] pt-16'>
+			<div className='grid py-10 grid-cols-3 gap-6 min-h-[50vh]'>
+				<div className='col-span-3 flex gap-3 px-2 flex-wrap w-full mx-auto    '>
 					{hotels?.map((hotel, i) => (
 						<div
-							className=' relative flex-1 bg-gray-400 rounded-xl overflow-hidden'
+							className=' relative flex-wrap min-w-[30%] h-[200px] bg-gray-400 rounded-xl overflow-hidden flex-grow'
 							key={hotel._id}
+							onClick={() => navigate(`search?cities=${hotel.city}`)}
 						>
 							{list.map((p, idx) => (
 								<img
 									key={idx}
-									src={p}
+									src={hotel.photo.photo}
 									alt='captown'
 									className='w-full object-cover h-full'
 								/>
 							))}
-							<div className='absolute top-3 left-3 flex-col items-start flex text-white justify-center'>
+							<div className='absolute top-3 left-3 flex-col items-start flex text-white justify-center bg-black/30 p-2'>
 								<h1 className=' text-2xl'>{hotel.city}</h1>
 								<p>450, 000 properties</p>
 							</div>
