@@ -88,7 +88,7 @@ const NavBar = () => {
 						</div>
 					</div>
 				</div>
-				<div className='bottom-nav flex items-center justify-between w-[90vw] lg:w-[60vw] text-white text-xs  md:text-lg lg:text-xl mx-auto mr-10 '>
+				<div className='bottom-nav flex items-center justify-between w-[90vw] lg:w-[60vw] text-white text-xs  md:text-lg lg:text-xl mx-auto  '>
 					{navDetails.map((nav, index) => (
 						<NavLink
 							key={index}

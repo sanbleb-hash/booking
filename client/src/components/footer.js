@@ -6,9 +6,9 @@ const Footer = () => {
 	return (
 		<footer>
 			<div className='w-screen bg-brand-primary  min-h-[20vh]'>
-				<div className='flex flex-col items-center pt-5 justify-center w-full h-full'>
+				<div className='flex flex-col items-center pt-5 justify-center w-full h-full '>
 					<button
-						className='px-4 rounded-sm mx-3 py-2  text-white capitalize font-semibold border-2 border-slate-100
+						className='px-4 rounded-sm mx-3 py-2  text-white capitalize md:font-semibold border-2 border-slate-100
                         bg-inherit hover:bg-blue-100/10
                         transition-all duration-200
                         '
@@ -25,29 +25,33 @@ const Footer = () => {
 			<div className='w-screen bg-slate-100  min-h-[20vh]'>
 				<div className='row'>
 					<div className=' w-[90vw] mx-auto py-5 flex items-start justify-between text-gray-500'>
-						<div className=''>
+						<div className='text-xs  md:text-sm'>
 							{footerList.map((item) =>
 								item.location.name.map((name, index) => (
 									<div key={index} className=''>
-										<h3 className='text-gray-500 '>{name}</h3>
+										<h3 className='text-gray-500 text-xs  md:text-sm '>
+											{name}
+										</h3>
 									</div>
 								))
 							)}
 						</div>
-						<div className=''>
+						<div className='px-3'>
 							{footerList.map((item) =>
 								item.location.description.map((name, index) => (
-									<div key={index} className=''>
+									<div key={index} className='text-xs  md:text-sm'>
 										<h3 className='text-gray-500 '>{name}</h3>
 									</div>
 								))
 							)}
 						</div>
-						<div className=''>
+						<div className='px-3'>
 							{footerList.map((item) =>
 								item.location.attributes.map((name, index) => (
-									<div key={index} className=''>
-										<h3 className='text-gray-500 '>{name}</h3>
+									<div key={index} className='text-xs  md:text-sm'>
+										<h3 className='text-gray-500 text-xs  md:text-sm '>
+											{name}
+										</h3>
 									</div>
 								))
 							)}
@@ -56,7 +60,9 @@ const Footer = () => {
 							{footerList.map((item) =>
 								item.location.facilities.map((name, index) => (
 									<div key={index} className=''>
-										<h3 className='text-gray-500 '>{name}</h3>
+										<h3 className='text-gray-500 text-xs  md:text-sm '>
+											{name}
+										</h3>
 									</div>
 								))
 							)}
@@ -64,15 +70,17 @@ const Footer = () => {
 						<div className=''>
 							{footerList.map((item) =>
 								item.location.others.map((name, index) => (
-									<div key={index} className=''>
-										<h3 className='text-gray-500 '>{name}</h3>
+									<div key={index} className='text-xs  md:text-sm'>
+										<h3 className='text-gray-500 text-xs  md:text-sm'>
+											{name}
+										</h3>
 									</div>
 								))
 							)}
 						</div>
 					</div>
 
-					<h2 className=' text-center text-gray-400 py-5'>
+					<h2 className=' text-center text-gray-400 py-5 text-xs  md:text-sm'>
 						{' '}
 						copyright Blessings of nino mult-medea &copy; {''}
 						{new Date().getFullYear()}
