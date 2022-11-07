@@ -15,7 +15,7 @@ const PropertyType = () => {
 
 	return (
 		<div className='min-h-[300px] z-10 flex flex-wrap items-center mx-auto w-full '>
-			{types.map((property, i) => (
+			{types?.map((property, i) => (
 				<div
 					className='flex gap-4 h-full p-2 flex-col rounded-md overflow-hidden'
 					key={i}
