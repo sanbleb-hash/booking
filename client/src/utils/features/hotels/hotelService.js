@@ -13,6 +13,7 @@ const getHotels = async () => {
 // get and search hotels api
 
 const searchHotels = async (keyword, page) => {
+	console.log(keyword, page);
 	const { data } = await axios.get(
 		`${baseUrl}?cities=${keyword}&pageNumber=${page}`
 	);

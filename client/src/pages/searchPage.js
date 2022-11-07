@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Pagenate from '../components/pagenate';
 import Spinner from '../components/spinner';
 import { searchHotels } from '../utils/features/hotels/hotelsSlice';
@@ -12,14 +12,15 @@ const SearchPage = () => {
 	const navigate = useNavigate();
 	const term = useLocation();
 
-	const param = term.search.split('=')[1];
+	const keyword = term.search.split('=')[1];
+	const page = 1;
 
 	const search = JSON.parse(localStorage.getItem('searchOptions'));
 	const chechIn = search.dates[0].startDate;
 	const chechout = search.dates[0].endDate;
 
 	const [formData, setFormData] = useState({
-		destination: search.destination || '',
+		destination: keyword || '',
 		chechInDates: chechIn,
 		chechout,
 
@@ -38,7 +39,7 @@ const SearchPage = () => {
 	};
 
 	const {
-		destination,
+		destination = keyword,
 		chechInDates: dates,
 		minPrice,
 		maxPrice,
@@ -48,8 +49,8 @@ const SearchPage = () => {
 	} = formData;
 
 	useEffect(() => {
-		dispatch(searchHotels(param));
-	}, [dispatch, param]);
+		dispatch(searchHotels({ keyword, page }));
+	}, [dispatch, keyword]);
 
 	return (
 		<section className='w-screen py-[40vh ] min-h-screen bg-slate-100 pb-10'>
@@ -61,7 +62,7 @@ const SearchPage = () => {
 					className='flex flex-col items-center max-w-[300px] justify-center'
 					onSubmit={(e) => {
 						e.preventDefault();
-						dispatch(searchHotels(destination));
+						dispatch(searchHotels({ keyword, page }));
 					}}
 				>
 					<div
@@ -72,12 +73,12 @@ const SearchPage = () => {
 							search
 						</h1>
 						<div className='flex py-2 flex-col'>
-							<label className='text-gray-500'>destination</label>
+							<label className='text-gray-500'>keyword</label>
 							<input
 								onChange={handleChange}
 								type='text'
-								name='destination'
-								value={destination}
+								name='keyword'
+								value={keyword}
 								className='border-0 focus:ring-0 text-gray-500 text-sm rounded-md p-1 pl-4 right-0'
 							/>
 						</div>
@@ -222,7 +223,7 @@ hover:bg-green-300 hover:border-green-500
 					</aside>
 				)}
 			</div>
-			<Pagenate destination={destination} />
+			<Pagenate keyword={keyword} />
 		</section>
 	);
 };

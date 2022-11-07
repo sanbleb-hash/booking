@@ -1,9 +1,11 @@
 import React from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchHotels } from '../utils/features/hotels/hotelsSlice';
 
-const Pagenate = ({ destination }) => {
-	const { page, pages } = useSelector((state) => state.hotels);
+const Pagenate = ({ keyword }) => {
+	const [page, setPageUp] = useState(1);
+	const { pages } = useSelector((state) => state.hotels);
 	const dispatch = useDispatch();
 
 	return (
@@ -13,19 +15,25 @@ const Pagenate = ({ destination }) => {
 					{page > 1 && (
 						<button
 							onClick={() => {
-								dispatch(searchHotels(`${destination},${page - 1}`));
+								setPageUp(page - 1);
+								dispatch(searchHotels({ keyword, page }));
 							}}
+							className='cursor-pointer hover:border-b hover:border-0 hover:shadow-md hover:shadow-blue-300 transition-all ease-in-out delay-75 border px-3 py-1'
 						>
 							prev
 						</button>
 					)}
-					<button
-						onClick={() => {
-							dispatch(searchHotels(`${destination},${page + 1}`));
-						}}
-					>
-						next
-					</button>{' '}
+					{page < pages && (
+						<button
+							onClick={() => {
+								dispatch(searchHotels({ keyword, page }));
+								setPageUp(page + 1);
+							}}
+							className='cursor-pointer hover:border-b hover:border-0 hover:shadow-md hover:shadow-blue-300 transition-all ease-in-out delay-75 border px-3 py-1'
+						>
+							next
+						</button>
+					)}{' '}
 				</div>
 			)}
 		</div>

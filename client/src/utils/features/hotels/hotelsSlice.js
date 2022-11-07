@@ -51,7 +51,8 @@ export const editHotel = createAsyncThunk(
 // get hotels by search
 export const searchHotels = createAsyncThunk(
 	'search/hotels',
-	async (keyword, page, thunkAPI) => {
+	async ({ keyword, page }, thunkAPI) => {
+		console.log(keyword);
 		try {
 			return await hotelService.searchHotels(keyword, page);
 		} catch (err) {
