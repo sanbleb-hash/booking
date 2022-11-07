@@ -9,10 +9,10 @@ const Header = () => {
 	return (
 		<header className='w-screen h-[50vh] bg-brand-primary pt-9 relative'>
 			<div className='w-[90vw] text-white mx-auto '>
-				<h1 className='text-5xl pb-5 font-semibold tracking-wider'>
+				<h1 className='text-xl md:text-3xl lg:text-5xl pb-5 font-semibold tracking-wider'>
 					A lifetime of discounts? It's Genius.
 				</h1>
-				<h3 className=' text-2xl w-[80%] leading-10 tracking-wide  '>
+				<h3 className=' text-sm md:text-lg  lg:text-2xl w-[80%] leading-10 tracking-wide  '>
 					Get rewarded for your travels – unlock instant savings of 10% or more
 					with a free Booking.com account.
 				</h3>

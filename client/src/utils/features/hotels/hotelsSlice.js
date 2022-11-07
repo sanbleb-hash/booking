@@ -74,6 +74,7 @@ export const hotelSlice = createSlice({
 				state.isLoading = false;
 				state.hotels = action.payload.hotels;
 				state.types = action.payload.type;
+				state.city = action.payload.city;
 			})
 			.addCase(getHotels.rejected, (state, action) => {
 				state.isError = true;

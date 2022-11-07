@@ -6,6 +6,7 @@ import MailList from '../components/mailList';
 import PropertyType from '../components/propertyType';
 import Spinner from '../components/spinner';
 import { getHotels } from '../utils/features/hotels/hotelsSlice';
+import Location from './location';
 
 const Home = () => {
 	const { isLoading } = useSelector((state) => state.hotels);
@@ -32,11 +33,11 @@ const Home = () => {
 				</h1>
 				<PropertyType />
 			</section>
-			<section className='w-[90vw] py-10 mx-auto'>
+			<section className='w-[90vw] py-5 mx-auto'>
 				<h1 className=' pb-5 text-2xl text-gray-700'>
 					Explore Other Locations
 				</h1>
-				<PropertyType />
+				<Location />
 			</section>
 			<MailList />
 		</main>

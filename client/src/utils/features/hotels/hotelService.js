@@ -6,8 +6,8 @@ const baseUrl = '/api/hotels';
 const getHotels = async () => {
 	const { data } = await axios.get(`${baseUrl}/featured`);
 
-	const { hotels, type } = data;
-	return { hotels, type };
+	const { hotels, type, city } = data;
+	return { hotels, type, city };
 };
 
 // get and search hotels api

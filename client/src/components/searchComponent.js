@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaBed, FaUser } from 'react-icons/fa';
+import { FaBed, FaSearch, FaUser } from 'react-icons/fa';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -54,18 +54,18 @@ const SearchComponent = () => {
 				onSubmit={handleSubmit}
 				className='w-full border-[5px] border-yellow-300 bg-slate-50 flex items-center justify-between   '
 			>
-				<div className='flex-1 flex items-center pl-5'>
-					<FaBed className=' text-2xl  text-gray-400 ' />
+				<div className=' text-xs md:tx-sm  flex-1 flex items-center pl-5'>
+					<FaBed className=' text-lg md:text-2xl  text-gray-400 ' />
 					<input
 						type='text'
 						value={text}
 						onChange={(e) => setText(e.target.value)}
 						placeholder='where are you going ?'
-						className='h-full w-full border-0 text-gray-400  ring-0 focus:ring-0 active:border-0 py-4'
+						className='h-full w-full border-0 text-gray-400  ring-0 focus:ring-0 active:border-0 py-4 '
 					/>
 				</div>
 				<div
-					className=' flex items-center pl-5 border-l-[5px] h-full border-r-[5px] text-gray-600 border-yellow-400 px-5 '
+					className=' text-xs md:tx-sm flex items-center pl-5 border-l-[5px] h-full border-r-[5px] text-gray-600 border-yellow-400 px-5 '
 					onClick={() => {
 						setShowDatePicker((prev) => !prev);
 					}}
@@ -85,8 +85,8 @@ const SearchComponent = () => {
 						ranges={date}
 					/>
 				)}
-				<div className=' flex items-center pl-5 gap-4 relative  flex-1 '>
-					<FaUser className=' text-2xl  text-gray-400 ' />
+				<div className=' text-xs md:tx-sm  flex items-center pl-5 gap-4 relative  flex-1 '>
+					<FaUser className=' text-lg md:text-2xl  text-gray-400 ' />
 					<p
 						className=' text-gray-600'
 						onClick={() => {
@@ -99,7 +99,7 @@ const SearchComponent = () => {
 							<span className='flex items-center justify-between w-[80%]  text-xl gap-4'>
 								<button
 									type='button'
-									className=' font-semibold active:scale-105 transition-all '
+									className=' font-semibold  d active:scale-105 transition-all '
 									onClick={() => handleChangeoptions('adults', 'increase')}
 								>
 									+
@@ -155,9 +155,12 @@ const SearchComponent = () => {
 				</div>
 				<button
 					type='submit'
-					className='  border-l-[5px] border-yellow-400 px-4 py-3 text-white bg-blue-600 capitalize font-semibold active:scale-105 transition-all h-full border-2  w-[150px]'
+					className='  border-l-[5px] border-yellow-400 px-4 py-3 text-white bg-blue-600 capitalize font-semibold active:scale-105 transition-all h-full border-2  w-[150px] hidden md:inline-block '
 				>
 					Search
+				</button>
+				<button className=' border-yellow-300 bg-slate-50 flex items-center justify-end text-gra p-3 '>
+					<FaSearch />
 				</button>
 			</form>
 		</div>

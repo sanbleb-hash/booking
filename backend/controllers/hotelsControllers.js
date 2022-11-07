@@ -31,9 +31,10 @@ export const getHotelsByType = async (req, res) => {
 export const getHotels = async (req, res) => {
 	try {
 		const type = await Hotel.distinct('type');
+		const city = await Hotel.distinct('city');
 
 		const hotels = await Hotel.find({ featured: true }).limit(5);
-		res.status(200).json({ hotels, type });
+		res.status(200).json({ hotels, type, city });
 	} catch (err) {
 		throw new Error(err.message);
 	}

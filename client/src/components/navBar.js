@@ -16,20 +16,20 @@ const NavBar = () => {
 
 	return (
 		<nav className=' w-screen h-[25vh] bg-[#003580] my-auto pt-8  '>
-			<div className='nav-container flex flex-col items-start justify-between w-[90vw] h-[18vh] m-auto  '>
-				<div className='top-nav flex items-center justify-between w-full text-white '>
-					<h1 className='font-semibold text-3xl'>
+			<div className='nav-container flex flex-col items-start justify-between w-[90vw] h-[18vh] mx-auto  '>
+				<div className='top-nav flex items-center justify-between w-full text-white mx-auto '>
+					<h1 className='font-semibold text-xl md:text-3xl'>
 						<Link to='/'>Booking.com </Link>
 					</h1>
-					<div className='flex items-center justify-center w'>
-						<span className='flex items-center justify-center text-2xl '>
+					<div className='flex  items-center  justify-center w'>
+						<span className='hidden  md:flex items-center justify-center text-2xl '>
 							<h3>zar </h3>
 							<GiCheckeredFlag className='mx-4 rounded-xl shadow-md shadow-slate-300 text-4xl ' />
 							<IoMdHelpCircleOutline size='40' />
 						</span>
-						<div className='btns '>
+						<div className='btns flex flex-col gap-2 md:flex-row '>
 							<button
-								className='px-4 rounded-sm mx-3 py-2  text-white capitalize font-semibold border-2 border-slate-100
+								className='px-2 text-sm md:text-lg md:px-4 rounded-sm mx-3 py-2  text-white capitalize md:font-semibold border-2 border-slate-100
                         bg-inherit hover:bg-blue-100/10
                         transition-all duration-200
                         '
@@ -40,24 +40,26 @@ const NavBar = () => {
 							>
 								list your property
 							</button>
-							<Button
-								title={'register'}
-								color={'#003580'}
-								size={'10px'}
-								type={'button'}
-								onClick={() => {
-									navigate('/login');
-								}}
-							/>
+							{!user && (
+								<Button
+									title={'register'}
+									color={'#003580'}
+									size={'10px'}
+									type={'button'}
+									onClick={() => {
+										navigate('/login');
+									}}
+								/>
+							)}
 							{user ? (
 								<span
 									onMouseEnter={() => setIsModalOpen(!isModalOpen)}
-									className='text-white text-3xl relative px-3 z-50'
+									className='text-white text-sm  md:text-lg lg:text-3xl relative px-3 z-50'
 								>
 									{user?.name}
 									{isModalOpen && (
 										<span
-											className='shadow-md text-xl shadow-yellow-200 p-3 text-white bg-blue-800 absolute -bottom-16  left-1'
+											className='shadow-md text-sm  md:text-lg shadow-yellow-200 p-3 text-white bg-blue-800 absolute -bottom-16  left-1'
 											onMouseEnter={() => setIsModalOpen(true)}
 											onMouseLeave={() => setIsModalOpen(false)}
 											onClick={() => {
@@ -86,7 +88,7 @@ const NavBar = () => {
 						</div>
 					</div>
 				</div>
-				<div className='bottom-nav flex items-center justify-between w-[60vw] text-white '>
+				<div className='bottom-nav flex items-center justify-between w-[90vw] lg:w-[60vw] text-white text-xs  md:text-lg lg:text-xl mx-auto mr-10 '>
 					{navDetails.map((nav, index) => (
 						<NavLink
 							key={index}
