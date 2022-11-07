@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GiSouthAfricaFlag } from 'react-icons/gi';
+import { FaFontAwesomeFlag } from 'react-icons/fa';
 import { IoMdHelpCircleOutline } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
@@ -24,7 +24,7 @@ const NavBar = () => {
 					<div className='flex  items-center  justify-center w'>
 						<span className='hidden  md:flex items-center justify-center text-2xl '>
 							<h3>zar </h3>
-							<GiSouthAfricaFlag className='mx-4 rounded-xl shadow-md shadow-slate-300 text-4xl ' />
+							<FaFontAwesomeFlag className='mx-4 rounded-xl shadow-md shadow-slate-300 text-4xl ' />
 							<IoMdHelpCircleOutline size='40' />
 						</span>
 						<div className='btns flex flex-col gap-2 md:flex-row '>
