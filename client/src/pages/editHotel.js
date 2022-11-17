@@ -62,7 +62,9 @@ const CreatedHotel = () => {
 			setShowUpLoad(true);
 			const {
 				data: { signature, timestamp },
-			} = await axios.post('/api/resource/upload');
+			} = await axios.post(
+				process.env.REACT_APP_BACKEND_API + '/api/resource/upload'
+			);
 
 			const upload = e.target.files[0];
 			const formInput = new FormData();

@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import connectDB from './config/db.js';
 import authUser from './routes/userRoutes.js';
 import hotelsRoutes from './routes/hotelsRoutes.js';
@@ -9,6 +10,7 @@ const app = express();
 
 // middlewares
 app.use(express.json());
+app.use(cors());
 
 dotenv.config();
 connectDB();

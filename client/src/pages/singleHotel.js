@@ -64,7 +64,9 @@ const Hotel = () => {
 		// get hotels by type
 		setSetLoading(true);
 		const getByType = async () => {
-			const { data } = await axios.get(`/api/hotels/${id}`);
+			const { data } = await axios.get(
+				`${process.env.REACT_APP_BACKEND_API}/api/hotels/${id}`
+			);
 			setSetLoading(false);
 			setProperty(data);
 		};

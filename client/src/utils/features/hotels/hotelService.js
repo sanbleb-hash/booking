@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = '/api/hotels';
+const baseUrl = process.env.REACT_APP_BACKEND_API + '/api/hotels';
 
 // get featured hotels from backend
 

@@ -29,11 +29,17 @@ const Login = () => {
 				password,
 				email,
 			};
-			const { data } = await axios.post('/api/auth', formData);
+			const { data } = await axios.post(
+				process.env.REACT_APP_BACKEND_API + '/api/auth',
+				formData
+			);
 			dispatch(registerUser({ payload: data }));
 			navigate('/');
 		} else {
-			const { data } = await axios.post('/api/auth/register', formData);
+			const { data } = await axios.post(
+				process.env.REACT_APP_BACKEND_API + '/api/auth/register',
+				formData
+			);
 			dispatch(registerUser({ payload: data }));
 			navigate('/');
 		}
